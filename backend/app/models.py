@@ -1,7 +1,9 @@
 import uuid
+from datetime import datetime, timezone
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
+from sqlalchemy import event
 
 
 # Shared properties
@@ -91,6 +93,41 @@ class ItemPublic(ItemBase):
 class ItemsPublic(SQLModel):
     data: list[ItemPublic]
     count: int
+
+
+class OrderBase(SQLModel):
+    quantity: int
+    item_id: uuid.UUID = Field(foreign_key="item.id", nullable=False)
+
+class Order(OrderBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    owner_id: uuid.UUID = Field(foreign_key="user.id", nullable=False)
+    created_on: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_on: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+# SQLAlchemy event to auto-update `updated_on`
+@event.listens_for(Order, "before_update")
+def before_update_listener(mapper, connection, target):
+    target.updated_on = datetime.now(timezone.utc)
+
+
+class OrderCreate(OrderBase):
+    pass
+
+
+class OrderPublic(OrderBase):
+    id: uuid.UUID
+    quantity: int
+    item_title: str
+    item_description: str | None = None
+    user_name: str | None = None
+    created_on: datetime
+    updated_on: datetime
+
+
+class OrdersPublic(SQLModel):
+    data: list[OrderPublic]
 
 
 # Generic message
