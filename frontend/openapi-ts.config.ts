@@ -11,6 +11,7 @@ export default defineConfig({
       // NOTE: this doesn't allow tree-shaking
       asClass: true,
       operationId: true,
+      // exportSchemas: true,
       methodNameBuilder: (operation) => {
         // @ts-ignore
         let name: string = operation.name

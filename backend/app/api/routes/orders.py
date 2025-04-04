@@ -50,7 +50,7 @@ def read_orders(
 
 
 @router.get("/{id}", response_model=OrderPublic)
-def read_item(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
+def read_order(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
     """
     Get order by ID.
     """
@@ -82,7 +82,7 @@ def read_item(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> 
 
 
 @router.post("/", response_model=Order)
-def create_item(
+def create_order(
     *, session: SessionDep, current_user: CurrentUser, order_in: OrderCreate
 ) -> Any:
     """
