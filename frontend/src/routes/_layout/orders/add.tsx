@@ -57,6 +57,7 @@ function ItemsTable() {
       maxH="30vh"
       overflowY="auto"
       boxShadow="sm"
+      mb={4}
     >
       <Table.Root size={{ base: "sm", md: "md" }}>
         <Table.Header>
@@ -92,7 +93,7 @@ function ItemsTable() {
 function AddOrder() {
   return (
     <>
-      <h1>Available Items</h1>
+      <h1 style={{ marginBottom: "1rem" }}>Available Items</h1>
       <ItemsTable />
       <AddOrderWithoutModal />
     </>
