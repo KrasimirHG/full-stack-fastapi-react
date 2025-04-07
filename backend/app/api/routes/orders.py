@@ -48,6 +48,42 @@ def read_orders(
     return OrdersPublic(data=orders_public)
 
 
+@router.get("/all", response_model=OrdersPublic)
+def read_all_orders(
+    session: SessionDep, current_user: CurrentUser
+) -> Any:
+    """
+    Retrieve all orders.
+    """
+    statement = (
+        select(Order, Item.title, Item.description, User.full_name)
+        .join(Item, Order.item_id == Item.id)
+        .join(User, Order.owner_id == User.id)
+    )
+
+    if not current_user.is_superuser:
+        statement = statement.where(Order.owner_id == current_user.id)
+
+    orders = session.exec(statement).all()
+
+    # Convert list of tuples into a list of OrderPublic objects
+    orders_public = [
+        OrderPublic(
+            id=o.id,
+            quantity=o.quantity,
+            item_id=o.item_id,
+            item_title=title,
+            item_description=desc,
+            user_name=user,
+            created_on=o.created_on,
+            updated_on=o.updated_on,
+        )
+        for o, title, desc, user in orders
+    ]
+
+    return OrdersPublic(data=orders_public)
+
+
 
 @router.get("/{id}", response_model=OrderPublic)
 def read_order(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:

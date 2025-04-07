@@ -18,9 +18,10 @@ import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
-import { Route as LayoutOrdersImport } from './routes/_layout/orders'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
+import { Route as LayoutOrdersOrdersImport } from './routes/_layout/orders/orders'
+import { Route as LayoutOrdersAddImport } from './routes/_layout/orders/add'
 
 // Create/Update Routes
 
@@ -59,11 +60,6 @@ const LayoutSettingsRoute = LayoutSettingsImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutOrdersRoute = LayoutOrdersImport.update({
-  path: '/orders',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const LayoutItemsRoute = LayoutItemsImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
@@ -71,6 +67,16 @@ const LayoutItemsRoute = LayoutItemsImport.update({
 
 const LayoutAdminRoute = LayoutAdminImport.update({
   path: '/admin',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutOrdersOrdersRoute = LayoutOrdersOrdersImport.update({
+  path: '/orders/orders',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutOrdersAddRoute = LayoutOrdersAddImport.update({
+  path: '/orders/add',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -106,16 +112,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutItemsImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/orders': {
-      preLoaderRoute: typeof LayoutOrdersImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/settings': {
       preLoaderRoute: typeof LayoutSettingsImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/': {
       preLoaderRoute: typeof LayoutIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/orders/add': {
+      preLoaderRoute: typeof LayoutOrdersAddImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/orders/orders': {
+      preLoaderRoute: typeof LayoutOrdersOrdersImport
       parentRoute: typeof LayoutImport
     }
   }
@@ -127,9 +137,10 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
     LayoutItemsRoute,
-    LayoutOrdersRoute,
     LayoutSettingsRoute,
     LayoutIndexRoute,
+    LayoutOrdersAddRoute,
+    LayoutOrdersOrdersRoute,
   ]),
   LoginRoute,
   RecoverPasswordRoute,

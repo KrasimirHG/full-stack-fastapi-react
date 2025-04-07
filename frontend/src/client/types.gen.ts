@@ -149,6 +149,8 @@ export type ItemsCreateItemData = {
 
 export type ItemsCreateItemResponse = (ItemPublic);
 
+export type ItemsReadItems1Response = (ItemsPublic);
+
 export type ItemsReadItemData = {
     id: string;
 };
@@ -206,6 +208,8 @@ export type OrdersCreateOrderData = {
 };
 
 export type OrdersCreateOrderResponse = (Order);
+
+export type OrdersReadAllOrdersResponse = (OrdersPublic);
 
 export type OrdersReadOrderData = {
     id: string;

@@ -5,6 +5,7 @@ import {
   Heading,
   Table,
   VStack,
+  Button,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -13,7 +14,7 @@ import { z } from "zod";
 
 import { OrdersService } from "@/client";
 // import { ItemActionsMenu } from "@/components/Common/ItemActionsMenu"
-import AddOrder from "@/components/Orders/AddOrder";
+// import AddOrder from "@/components/Orders/AddOrder";
 import PendingItems from "@/components/Pending/PendingItems";
 import {
   PaginationItems,
@@ -41,7 +42,7 @@ function getOrdersQueryOptions({ page }: { page: number }) {
   };
 }
 
-export const Route = createFileRoute("/_layout/orders")({
+export const Route = createFileRoute("/_layout/orders/orders")({
   component: Orders,
   validateSearch: (search) => ordersSearchSchema.parse(search),
 });
@@ -155,12 +156,15 @@ function OrdersTable() {
 }
 
 function Orders() {
+  const navigate = useNavigate();
   return (
     <Container maxW="full">
       <Heading size="lg" pt={12}>
         Orders Management
       </Heading>
-      <AddOrder />
+      {/* <AddOrder /> */}
+      <Button  variant="solid"
+        type="button" onClick={() => navigate({ to: "/orders/add" })}>Add order</Button>
       <OrdersTable />
     </Container>
   );
