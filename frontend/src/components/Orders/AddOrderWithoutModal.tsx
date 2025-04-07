@@ -1,13 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, useFieldArray } from "react-hook-form";
 
-import {
-  Button,
-  HStack,
-  IconButton,
-  Input,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, HStack, IconButton, Input, VStack } from "@chakra-ui/react";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { FiTrash } from "react-icons/fi";
 
@@ -17,6 +11,7 @@ import useCustomToast from "@/hooks/useCustomToast";
 import { handleError } from "@/utils";
 
 import { Field } from "../ui/field";
+import { DropZoneInput } from "./DropZoneInput";
 
 type OrderFormValues = {
   orders: OrderCreate[];
@@ -30,6 +25,7 @@ const AddOrderWithoutModal = () => {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors, isValid, isSubmitting },
   } = useForm<OrderFormValues>({
     mode: "onBlur",
@@ -95,24 +91,29 @@ const AddOrderWithoutModal = () => {
               flex={1}
               required
             >
-              <Input
-                {...register(`orders.${index}.item_id`, {
-                  required: "Item ID is required.",
-                })}
-                placeholder="Item ID"
-              />
+              <DropZoneInput
+                name={`orders.${index}.item_id`}
+                setValue={setValue}
+              >
+                <Input
+                  {...register(`orders.${index}.item_id`, {
+                    required: "Item ID is required.",
+                  })}
+                  placeholder="Item ID"
+                />
+              </DropZoneInput>
             </Field>
             <Tooltip label="Delete the row" placement="left">
-            <IconButton
-              aria-label="Remove"
-              variant="ghost"
-              colorScheme="red"
-              _hover={{ bg: "red.50" }}
-              onClick={() => remove(index)}
-              mt={6}
-            >
-              <FiTrash />
-            </IconButton>
+              <IconButton
+                aria-label="Remove"
+                variant="ghost"
+                colorScheme="red"
+                _hover={{ bg: "red.50" }}
+                onClick={() => remove(index)}
+                mt={6}
+              >
+                <FiTrash />
+              </IconButton>
             </Tooltip>
           </HStack>
         ))}

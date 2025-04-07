@@ -1,11 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 import { ItemsService } from "@/client";
 import PendingItems from "@/components/Pending/PendingItems";
 import { Box, EmptyState, Table, VStack } from "@chakra-ui/react";
 import { FiSearch } from "react-icons/fi";
 import AddOrderWithoutModal from "@/components/Orders/AddOrderWithoutModal";
+import { DraggableItem } from "@/components/Items/DraggableItem";
 
 export const Route = createFileRoute("/_layout/orders/add")({
   component: () => <AddOrder />,
@@ -74,7 +78,7 @@ function ItemsTable() {
                 {item.id}
               </Table.Cell>
               <Table.Cell truncate maxW="sm">
-                {item.title}
+              <DraggableItem id={item.id} title={item.title} />
               </Table.Cell>
               <Table.Cell
                 color={!item.description ? "gray" : "inherit"}
@@ -92,10 +96,10 @@ function ItemsTable() {
 }
 function AddOrder() {
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <h1 style={{ marginBottom: "1rem" }}>Available Items</h1>
       <ItemsTable />
       <AddOrderWithoutModal />
-    </>
+    </DndProvider>
   );
 }
