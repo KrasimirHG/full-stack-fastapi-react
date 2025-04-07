@@ -78,7 +78,7 @@ function ItemsTable() {
                 {item.id}
               </Table.Cell>
               <Table.Cell truncate maxW="sm">
-              <DraggableItem id={item.id} title={item.title} />
+                <DraggableItem id={item.id} title={item.title} />
               </Table.Cell>
               <Table.Cell
                 color={!item.description ? "gray" : "inherit"}
@@ -97,7 +97,17 @@ function ItemsTable() {
 function AddOrder() {
   return (
     <DndProvider backend={HTML5Backend}>
-      <h1 style={{ marginBottom: "1rem" }}>Available Items</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "1rem",
+          marginRight: "1rem",
+        }}
+      >
+        <p>Available Items: </p>
+        <p>You can drag and drop the name of the item in the Item ID input</p>
+      </div>
       <ItemsTable />
       <AddOrderWithoutModal />
     </DndProvider>

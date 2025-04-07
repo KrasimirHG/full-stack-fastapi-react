@@ -66,12 +66,12 @@ const AddOrderWithoutModal = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack gap={4} align="stretch">
         {fields.map((field, index) => (
-          <HStack key={field.id} gap={4} align="start">
+          <HStack key={field.id} gap={4} align="center" w="full">
             <Field
               invalid={!!errors.orders?.[index]?.quantity}
               errorText={errors.orders?.[index]?.quantity?.message}
               label="Quantity"
-              flex={1}
+              width="100%"
             >
               <Input
                 {...register(`orders.${index}.quantity`, {
@@ -81,6 +81,7 @@ const AddOrderWithoutModal = () => {
                 placeholder="Quantity"
                 type="number"
                 min={1}
+                width="100%"
               />
             </Field>
 
@@ -88,7 +89,7 @@ const AddOrderWithoutModal = () => {
               invalid={!!errors.orders?.[index]?.item_id}
               errorText={errors.orders?.[index]?.item_id?.message}
               label="Item ID"
-              flex={1}
+              width="100%"
               required
             >
               <DropZoneInput
@@ -100,9 +101,11 @@ const AddOrderWithoutModal = () => {
                     required: "Item ID is required.",
                   })}
                   placeholder="Item ID"
+                  width="100%" // Ensure full width for the input
                 />
               </DropZoneInput>
             </Field>
+
             <Tooltip label="Delete the row" placement="left">
               <IconButton
                 aria-label="Remove"
