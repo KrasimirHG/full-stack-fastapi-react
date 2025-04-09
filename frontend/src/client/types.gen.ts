@@ -217,6 +217,19 @@ export type OrdersReadOrderData = {
 
 export type OrdersReadOrderResponse = (OrderPublic);
 
+export type OrdersUpdateOrderData = {
+    id: string;
+    requestBody: OrderCreate;
+};
+
+export type OrdersUpdateOrderResponse = (Order);
+
+export type OrdersDeleteOrderData = {
+    id: string;
+};
+
+export type OrdersDeleteOrderResponse = (Message);
+
 export type PrivateCreateUserData = {
     requestBody: PrivateUserCreate;
 };

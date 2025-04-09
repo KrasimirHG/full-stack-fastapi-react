@@ -129,3 +129,40 @@ def create_order(
     session.commit()
     session.refresh(order)
     return order
+
+
+@router.put("/{id}", response_model=Order)
+def update_order(
+    *, session: SessionDep, current_user: CurrentUser, id: uuid.UUID, order_in: OrderCreate
+) -> Any:
+    """
+    Update an order.
+    """
+    order = session.get(Order, id)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    if not current_user.is_superuser and (order.owner_id != current_user.id):
+        raise HTTPException(status_code=400, detail="Not enough permissions")
+    update_dict = order_in.model_dump(exclude_unset=True)
+    order.sqlmodel_update(update_dict)
+    session.add(order)
+    session.commit()
+    session.refresh(order)
+    return order
+
+
+@router.delete("/{id}", response_model=Message)
+def delete_order(
+    *,session: SessionDep, current_user: CurrentUser, id: uuid.UUID
+) -> Message:
+    """
+    Delete an order.
+    """
+    order = session.get(Order, id)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    if not current_user.is_superuser and (order.owner_id != current_user.id):
+        raise HTTPException(status_code=400, detail="Not enough permissions")
+    session.delete(order)
+    session.commit()
+    return Message(message="Order successfully deleted")

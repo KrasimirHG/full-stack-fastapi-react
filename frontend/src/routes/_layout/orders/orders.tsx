@@ -159,7 +159,7 @@ function Orders() {
   const navigate = useNavigate();
   return (
     <Container maxW="full">
-      <Heading size="lg" pt={12}>
+      <Heading size="lg" pt={12} mb={4}>
         Orders Management
       </Heading>
       {/* <AddOrder /> */}
